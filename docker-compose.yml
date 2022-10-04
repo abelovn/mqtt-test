@@ -1,0 +1,25 @@
+version: "3.8"
+
+services:
+  mosquitto:
+    image: eclipse-mosquitto:latest
+    restart: always
+    ports:
+      - "1883:1883"
+      - "9001:9001"
+    networks:
+      - mqtt-net
+    volumes:
+      - ./mosquitto.conf:/mosquitto/config/mosquitto.conf    
+  
+  nginx:
+    image: nginx:latest
+    restart: always
+    ports: 
+      - 80:80
+    networks:
+      - mqtt-net  
+  
+
+networks:
+  mqtt-net:
