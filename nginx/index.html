@@ -1,0 +1,45 @@
+<!DOCTYPE HTML>
+<html>
+   <head>
+      <script type='text/javascript' src='mosquitto-1.1.js'></script>
+      <script type="text/javascript">
+         var mosq = null;
+         var url = "ws://localhost:9001/";
+         var topic = "test/rensanning/ws";
+         var time = 0;
+         function conn() {
+            if ("WebSocket" in window) {
+               console.log("WebSocket is supported by your Browser!");
+               mosq = new Mosquitto();
+               mosq.connect(url);
+               mosq.onconnect = function(rc) {
+                console.log("CONNACK " + rc);
+               };
+               mosq.ondisconnect = function(rc) {
+                console.log("Lost connection");
+               };
+               mosq.onmessage = function(topic, payload, qos) {
+                console.log("PUBLISH " + topic + " " + payload);
+               };
+            } else {
+               console.log("WebSocket NOT supported by your Browser!");
+            }
+         }
+         function sub() {
+             mosq.subscribe(topic, 0);
+         }
+         function pub() {
+             time = time + 1;
+             var msg = "ws test by mosquitto-1.1.js. " + time;
+             mosq.publish(topic, msg, 0);
+         }
+      </script>
+   </head>
+   <body>
+      <div>
+         <a href="javascript:conn()">connection</a><br/>
+         <a href="javascript:sub()">subscribe</a><br/>
+         <a href="javascript:pub()">publish</a>
+      </div>
+   </body>
+</html>

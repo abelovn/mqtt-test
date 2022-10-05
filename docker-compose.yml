@@ -10,15 +10,56 @@ services:
     networks:
       - mqtt-net
     volumes:
-      - ./mosquitto.conf:/mosquitto/config/mosquitto.conf    
+      - ./mosquitto/mosquitto.conf:/mosquitto/config/mosquitto.conf    
   
   nginx:
-    image: nginx:latest
+    build: ./nginx      
     restart: always
     ports: 
       - 80:80
     networks:
       - mqtt-net  
+      
+      
+      
+      
+  influxdb:
+    image: influxdb
+    restart: always
+    ports:
+      - "8086:8086"
+    networks:
+      - mqtt-net
+    volumes:
+      - influxdb-data:/var/lib/influxdb
+  
+  telegraf:
+    image: telegraf
+    restart: always
+    volumes:
+      - ./telegraf/telegraf.conf:/etc/telegraf/telegraf.conf:ro
+    depends_on:
+      - mosquitto
+      - influxdb
+    networks:
+      - mqtt-net
+  
+  grafana:
+    image: grafana/grafana
+    restart: always
+    ports:
+      - "3000:3000"
+    networks:
+      - mqtt-net
+    volumes:
+      - grafana-data:/var/lib/grafana
+    depends_on:
+      - influxdb
+
+
+volumes:
+    influxdb-data:
+    grafana-data:    
   
 
 networks:

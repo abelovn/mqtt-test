@@ -1,0 +1,51 @@
+<!DOCTYPE HTML>
+<html>
+   <head>
+      <script type='text/javascript' src='mqttws31.js'></script>
+      <script type="text/javascript">
+         var client = null;
+         var url = "ws://localhost:9001/";
+         var topic = "test/rensanning/ws";
+         var time = 0;
+         function conn() {
+            if ("WebSocket" in window) {
+               console.log("WebSocket is supported by your Browser!");
+               client = new Paho.MQTT.Client(url, "ClientId");
+               client.onConnectionLost = onConnectionLost;
+               client.onMessageArrived = onMessageArrived;
+               client.connect({onSuccess:onConnect});
+            } else {
+               console.log("WebSocket NOT supported by your Browser!");
+            }
+         }
+         function sub() {
+             client.subscribe(topic);
+         }
+         function pub() {
+             time = time + 1;
+             var msg = "ws test by mqttws31.js. " + time;
+             var message = new Paho.MQTT.Message(msg);
+             message.destinationName = topic;
+             client.send(message);
+         }
+         function onConnect() {
+            console.log("CONNACK");
+         }
+         function onConnectionLost(responseObject) {
+            console.log("Lost connection");
+            if (responseObject.errorCode !== 0)
+              console.log("onConnectionLost:" + responseObject.errorMessage);
+         }
+         function onMessageArrived(message) {
+            console.log("PUBLISH " + message.destinationName + " " + message.payloadString);
+         }
+      </script>
+   </head>
+   <body>
+      <div>
+         <a href="javascript:conn()">connection</a><br/>
+         <a href="javascript:sub()">subscribe</a><br/>
+         <a href="javascript:pub()">publish</a>
+      </div>
+   </body>
+</html>
