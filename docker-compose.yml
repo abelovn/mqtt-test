@@ -6,11 +6,11 @@ services:
     restart: always
     ports:
       - "1883:1883"
-      - "9001:9001"
+
     networks:
       - mqtt-net
     volumes:
-      - ./mosquitto/mosquitto.conf:/mosquitto/config/mosquitto.conf    
+      - ./mosquitto/config/mosquitto.conf:/mosquitto/config/mosquitto.conf    
   
   nginx:
     build: ./nginx      
@@ -19,7 +19,7 @@ services:
       - 80:80
     networks:
       - mqtt-net  
-      
+     
       
       
       
@@ -34,10 +34,13 @@ services:
       - influxdb-data:/var/lib/influxdb
   
   telegraf:
-    image: telegraf
+    image: telegraf:latest
+    environment:
+      - TZ=Europe/Moscow
     restart: always
     volumes:
-      - ./telegraf/telegraf.conf:/etc/telegraf/telegraf.conf:ro
+      - ./telegraf/conf/telegraf.conf:/etc/telegraf/telegraf.conf
+      - /var/run/docker.sock:/var/run/docker.sock
     depends_on:
       - mosquitto
       - influxdb
@@ -64,3 +67,6 @@ volumes:
 
 networks:
   mqtt-net:
+  telegraf-net:
+  influx-net:
+  grafana-net:
