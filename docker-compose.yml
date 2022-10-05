@@ -56,7 +56,7 @@ services:
     networks:
       - mqtt-net
     volumes:
-            #- ./grafana/grafana.ini:/etc/grafana/grafana.ini        
+      - ./grafana/grafana.ini:/etc/grafana/grafana.ini        
       - grafana-data:/var/lib/grafana
     depends_on:
       - influxdb
