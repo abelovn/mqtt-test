@@ -14,6 +14,7 @@ services:
       - mqtt-net
     volumes:
       - ./mosquitto/config/mosquitto.conf:/mosquitto/config/mosquitto.conf    
+      - ./mosquitto/config/passwd_file:/etc/mosquitto/passwd_file   
     
 
     
