@@ -42,7 +42,7 @@ docker-compose build --no-cache && docker-compose up
 (вязто из habr)
 
 ### InfluxDB 
-по адресу http://<localhost IP>:8086 
+по адресу http://localhost_IP:8086 
 
 
 и нажимаем “GET STARTED” и первым делом создаем учетную запись, указываем название организации и корзины для данных (Organization Name и Bucket Name -> IoT). После заполнения нажать «CONTINUE», а в следующем окне «QUICK START»
@@ -77,7 +77,7 @@ Cкопировать скрипт получения данных из БД. Д
 
 ### Grafana
 
-http://<localhost IP>/grafana
+http://localhost_IP/grafana
 
 Первая авторизация происходит по логину/паролю admin/admin, после чего система попросит установить новый пароль. 
 
@@ -94,7 +94,7 @@ http://<localhost IP>/grafana
 
 Также в окружении подняты контейнры nodered
 
-http://<localhost IP>:1880
+http://localhost_IP:1880
 
 Как доп ф-ционал можно осуществлять публикация и подписка MQTT с помощью Node Red
 
