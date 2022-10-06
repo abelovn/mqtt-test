@@ -1,18 +1,7 @@
 version: "3.8"
 
 services:
-  lighttpd:
-    image: jojomi/lighttpd-static
-    volumes:
-      - $PWD/www:/var/www
-      - $PWD/configs/hivemq_config.js:/var/www/hivemq-mqtt-web-client/config.js
-      - $PWD/configs/simple_mqtt_config.js:/var/www/simple-mqtt-websocket-example/config.js
-    ports:
-      - "8080:80"
-    links:
-      - mosquitto
-    networks:
-      - mqtt-net
+  
 
   mosquitto:
     image: eclipse-mosquitto:latest
@@ -26,14 +15,6 @@ services:
     volumes:
       - ./mosquitto/config/mosquitto.conf:/mosquitto/config/mosquitto.conf    
     
-  nodered:
-    image: nodered/node-red
-    links:
-      - mosquitto
-    ports:
-      - "1880:1880"
-    networks:
-      - mqtt-net      
 
     
   nginx:
