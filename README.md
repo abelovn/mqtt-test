@@ -24,7 +24,7 @@ docker-compose build --no-cache && docker-compose up
 
 
 
-настроить influxdb через реверс прокси не удалось. Проблема известа (https://github.com/influxdata/influxdb/issues/21009)
+настроить influxdb через реверс прокси не удалось. Проблема известна (https://github.com/influxdata/influxdb/issues/21009)
 
 В графане данное поведение можно решить черз root_url в ini файле. В InfluxDB данная настрока не применяется.
 
